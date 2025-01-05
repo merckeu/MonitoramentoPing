@@ -16,6 +16,6 @@ Configuração no Agendador
 
 Para executar o script regularmente, adicione-o ao agendador:
 '''
-    /system scheduler add name="MonitorPing" interval=1m on-event="nome_do_script"...
+/system scheduler add name="MonitorPing" interval=1m on-event="nome_do_script"...
 '''
 Substitua nome_do_script pelo nome que você salvou.
