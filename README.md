@@ -5,7 +5,7 @@
             Latência alta: /latencia_alta
 
     Mensagens no Log
-        Log de erro ou aviso para cada caso com detalhes do evento.
+        Log de erro ou aviso para cada caso com detalhes do evento
 
     URLs de Notificação:
         Personalize as URLs para o sistema de notificação que você utiliza
