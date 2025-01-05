@@ -1,0 +1,72 @@
+##################################################
+##
+##             MORETTIMORETTI CONSULTORIA  MK-AUTH E MIKROTIK
+##
+##			www.morettimoretti.ddns.net
+##
+##################################################
+
+########### Altere conforme sua necessidade ################
+:global iptest 8.8.8.8
+:global latenciAceitavel 10
+:global tempoEntrePings 2
+:global NumPings 5
+
+##################################################
+
+:global msg
+:global status
+:global oldstatus $status
+:global somaLatencia 0
+:global somaRecebidos 0 
+##################################################
+
+# Inicializa variáveis
+:set somaLatencia 0
+:set somaRecebidos 0
+
+# Realiza os testes de ping
+for i from=1 to=$NumPings do={
+    /tool flood-ping $iptest size=100 count=1 do={
+        :if ($received = 1) do={
+            :set somaLatencia ($somaLatencia + $"avg-rtt")
+        }
+        :set somaRecebidos ($somaRecebidos + $received)
+    }
+    delay $tempoEntrePings
+}
+
+#################################### AÇÕES TOMADAS SE HOST ESTIVER FORA DE ALCANCE #############################
+:if ($somaRecebidos = 0 ) do={
+    :global status "HOST $iptest FORA DE ALCANCE"
+    :if ($oldstatus = $status) do={quit} else={
+        :log warning $status
+        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest" keep-result=no
+        quit
+    }
+}
+
+#################################### CALCULA LATÊNCIA E PERDA DE PACOTES #############################
+
+:global media ($somaLatencia/$somaRecebidos)
+:global percaPacotes (100 - (($somaRecebidos * 100) / $NumPings))
+
+:global msg ("Média de PING para o IP $iptest foi de ".[:tostr $media]."ms e PERDA DE PACOTES foi de ". [:tostr $percaPacotes]."%. Foram ".$NumPings." PINGs enviados e ".$somaRecebidos." recebidos.")
+
+
+#################################### AÇÕES TOMADAS SE A LATÊNCIA ESTIVER ABAIXO OU ACIMA DO ESPECIFICADO #############################
+:if ($media < $latenciAceitavel ) do={
+    :global status "LATÊNCIA OK"
+    :if ($oldstatus = $status) do={quit} else={
+        :log warning $msg
+        :log warning $status
+        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
+    }
+} else={
+    :global status "LATÊNCIA ALTA"
+    :if ($oldstatus = $status) do={quit} else={
+        :log error $msg
+        :log error $status
+        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
+    }
+}
