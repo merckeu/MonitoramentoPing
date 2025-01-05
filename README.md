@@ -1,17 +1,16 @@
-    Substituído envio de e-mail por tool fetch:
-        O script usa requisições HTTP para notificar eventos
-            Host fora de alcance: /host_fora
-            Latência OK: /latencia_ok
-            Latência alta: /latencia_alta
+Substituído envio de e-mail por tool fetch:
+O script usa requisições HTTP para notificar eventos
+Host fora de alcance: /host_fora
+Latência OK: /latencia_ok
+Latência alta: /latencia_alta
+Mensagens no Log
+Log de erro ou aviso para cada caso com detalhes do evento
 
-    Mensagens no Log
-        Log de erro ou aviso para cada caso com detalhes do evento
+URLs de Notificação
+Personalize as URLs para o sistema de notificação que você utiliza
 
-    URLs de Notificação:
-        Personalize as URLs para o sistema de notificação que você utiliza
-
-    Controle de Status
-        Evita notificações duplicadas ao verificar se o status atual é igual ao anterior ($oldstatus)
+Controle de Status
+Evita notificações duplicadas ao verificar se o status atual é igual ao anterior ($oldstatus)
 
 Configuração no Agendador
 
