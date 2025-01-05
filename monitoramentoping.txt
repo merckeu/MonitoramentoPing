@@ -41,7 +41,7 @@ for i from=1 to=$NumPings do={
     :global status "HOST $iptest FORA DE ALCANCE"
     :if ($oldstatus = $status) do={quit} else={
         :log warning $status
-        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest" keep-result=no
+        /tool fetch url="http://seusitemkauthcommwsn:8000/mikrotik/token/5566992492104/Ping%20ip=$iptest" keep-result=no
         quit
     }
 }
@@ -60,13 +60,13 @@ for i from=1 to=$NumPings do={
     :if ($oldstatus = $status) do={quit} else={
         :log warning $msg
         :log warning $status
-        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
+        /tool fetch url="http://seusitemkauthcommwsn:8000/mikrotik/token/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
     }
 } else={
     :global status "LATÊNCIA ALTA"
     :if ($oldstatus = $status) do={quit} else={
         :log error $msg
         :log error $status
-        /tool fetch url="http://104.234.173.123:8000/mikrotik/Mer1536/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
+        /tool fetch url="http://seusitemkauthcommwsn:8000/mikrotik/token/5566992492104/Ping%20ip=$iptest&media=$media&perca=$percaPacotes" keep-result=no
     }
 }
